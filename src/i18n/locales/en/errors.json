@@ -1,0 +1,7 @@
+{
+    "ERROR_INVALID_NAME":"Please enter a valid name.",
+    "ERROR_INVALID_EMAIL":"Please enter a valid email.",
+    "ERROR_VALID_PASSWORD":"Please enter a valid password. Password must have a minimum length of {{length}}.",
+    "ERROR_VALID_CONFIRM_PASSWORD":"Please confirm the password."
+
+}
