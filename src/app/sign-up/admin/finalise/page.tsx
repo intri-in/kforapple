@@ -7,6 +7,7 @@ import { unauthorized } from 'next/navigation'
 import { getSuccessFromAPIReponse } from "@/lib/helpers/api/parsers"
 import { getAPIURL } from "@/lib/helpers/env"
 import { getIfAllowedtoAccessAdminCreation } from "@/lib/helpers/frontend/admin/access"
+import { FinaliseAdminRegistration } from "@/components/sign-up/admin/FinaliseAdminRegistration"
 export async function generateMetadata({  searchParams }: {  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>  }){
   const lng = (await searchParams)?.lng?.toString() ?? DEFAULT_LANGUAGE
   const i18n= await serverTranslation(lng)
@@ -14,7 +15,7 @@ export async function generateMetadata({  searchParams }: {  searchParams?: Prom
 //   const slug = validator.escape(params.slug)
    let toReturn = DEFAULT_METADATA
 //   const newMetaTags = []
-  const pageTitle = `${i18n.t("KFORAPPLE")} | ${i18n.t("ADMIN_DASHBOARD")}`
+  const pageTitle = `${i18n.t("KFORAPPLE")} | ${i18n.t("LOGIN")}`
 
 toReturn.title = pageTitle
 toReturn.description = pageTitle
@@ -28,17 +29,11 @@ toReturn.openGraph={
 return toReturn
   
 }
-
-
 export default async function Home({searchParams }:{ searchParams?: Promise<{ [key: string]: string | string[] | undefined }>}) {
   const lng = (await searchParams)?.lng?.toString() ?? DEFAULT_LANGUAGE
-  const allowed = await getIfAllowedtoAccessAdminCreation()  
-  if(!allowed){
-    return unauthorized()
-  }
   return (
       <Suspense fallback={<FullPageLoadingPlaceholder />}>
-        <LoginForm callbackURL="/sign-up/admin/finalise" admin={allowed ? true: false} lng={lng} action="signup" />
+        <FinaliseAdminRegistration lng={lng} />
       </Suspense>
         
   )

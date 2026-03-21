@@ -44,7 +44,12 @@
     "BACK":"वापस",
     "PASSWORD":"पासवर्ड",
     "CONFIRM_PASSWORD":"पासवर्ड की पुष्टि",
-    "SIGN_UP_WITH_EMAIL_OTP":"ईमेल ओ.टी.पी. से साइन अप करें"
+    "SIGN_UP_WITH_EMAIL_OTP":"ईमेल ओ.टी.पी. से साइन अप करें",
+    "LOGIN_WITH_EMAIL_OTP":"ईमेल ओ.टी.पी. से लॉग इन करें",
+    "LOGIN_WITH_PASSWORD":"पासवर्ड से लॉग इन करें",
+    "SETTING_UP":"अनुरोध को अंतिम रूप दिया जा रहा है.....",
+     "OTP":"ओ.टी.पी.",
+    "SUBMIT":"सबमिट"
 
 
 

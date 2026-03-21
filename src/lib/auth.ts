@@ -1,13 +1,24 @@
 import "dotenv/config";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { admin } from "better-auth/plugins"
+import { admin as adminPlugin } from "better-auth/plugins"
 import { genericOAuth } from "better-auth/plugins"
 // If your Prisma file is located elsewhere, you can change the path
 import {prisma} from '@/lib/prisma'
+import { getIfEmailSignupEnabled, getMinimumPasswordLength } from "./helpers/env";
+import { ac, admin, manager, user } from "@/lib/permissions"
+import { emailOTP } from "better-auth/plugins"
+import { sendLoginOTPEmail } from "./helpers/api/email";
 
 let plugins = [
-        admin(),
+        adminPlugin({
+            ac,
+            roles: {
+                admin,
+                manager,
+                user
+            }
+        }),
         genericOAuth(
                     {
                         config:[
@@ -19,10 +30,22 @@ let plugins = [
                             }
                         ]
                     }
-            )
+            ),
+        emailOTP({ 
+        async sendVerificationOTP({ email, otp, type }) { 
+                if (type === "sign-in") { 
+                    // Send the OTP for sign in
+                    await sendLoginOTPEmail(email, otp)
+                } else if (type === "email-verification") { 
+                    // Send the OTP for email verification
+                } else { 
+                    // Send the OTP for password reset
+                } 
+            }, 
+        }) 
 ]
 // console.log("process.env.OAUTH_ENABLED_PROVIDERS", process.env.OAUTH_ENABLED_PROVIDERS, )
-let emailAndPasswordEnabled = false
+let emailAndPasswordEnabled = getIfEmailSignupEnabled()
 if(process.env.OAUTH_ENABLED_PROVIDERS){
     const parsedProviders =  JSON.parse(process.env.OAUTH_ENABLED_PROVIDERS!)
     if(Array.isArray(parsedProviders))
@@ -46,6 +69,26 @@ export const auth = betterAuth({
     }),
     emailAndPassword: { 
         enabled: emailAndPasswordEnabled, 
+        minPasswordLength:getMinimumPasswordLength()
     }, 
-     plugins: plugins
+    plugins: plugins,
+    rateLimit: {
+        enabled: true,
+        storage: "database",
+        modelName: "rateLimit", //optional by default "rateLimit" is used
+        customRules: {
+        "/sign-in/email-otp": {
+            window: 10,
+            max: 3,
+        },
+        "/two-factor/*": async (request)=> {
+            // custom function to return rate limit window and max
+            return {
+                window: 10,
+                max: 3,
+            }
+        }
+        },
+    }
+    
 });

@@ -14,6 +14,7 @@ import { getEnabledLoginProviders } from "@/lib/helpers/auth"
 import LoginIcon from '@mui/icons-material/Login';
 import { Alert } from "@mui/material"
 import { SignupWithEmailForm } from "./SignupWithEmailForm"
+import { SimpleLoginForm } from "./SimpleLoginForm"
 const GetOutputForLoginType = ({name, icon, onClickFunction}: {name: string | ReactElement<unknown, string | JSXElementConstructor<any>>, icon: React.JSX.Element, onClickFunction: MouseEventHandler<HTMLDivElement>} ) =>{
 
     return(                            
@@ -49,7 +50,13 @@ export const LoginForm =  ({lng , callbackURL = '/dashboard', action='login', ad
     const title = (action!="signup") ? i18n.t("LOGIN") : i18n.t("SIGN_UP")
     let finalOutput: React.JSX.Element[] = []
     if(showScreenTwo){
-        finalOutput.push(<SignupWithEmailForm onBackClicked={backClickedSignup} key="signup-form-email" admin={admin} lng={lng} />)
+        if(action=="signup"){
+
+            finalOutput.push(<SignupWithEmailForm callbackURL={callbackURL} onBackClicked={backClickedSignup} key="signup-form-email" admin={admin} lng={lng} />)
+        }else{
+            finalOutput.push(<SimpleLoginForm callbackURL={callbackURL} onBackClicked={backClickedSignup} key="loginForm-email" admin={admin} lng={lng} />)
+
+        }
     }else{
         for (const i in loginTypes){
 

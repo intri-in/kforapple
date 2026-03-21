@@ -1,4 +1,4 @@
-import { SUPPORTED_LANGUAGES } from '#/defines/constants'
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '#/defines/constants'
 import { createInstance } from 'i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import { initReactI18next } from 'react-i18next/initReactI18next'
@@ -12,7 +12,8 @@ export interface additionalResources{
   ns: string,
   data: any
 }
-export async function initI18next(lng: string, ns: string, additionalResources? : additionalResources[],options?: any){
+export async function initI18next(lng_input: string, ns: string, additionalResources? : additionalResources[],options?: any){
+  const lng =  (SUPPORTED_LANGUAGES.includes(lng_input)) ? lng_input : DEFAULT_LANGUAGE
   const i18nInstance = createInstance()
   await i18nInstance
     .use(initReactI18next)
@@ -21,7 +22,10 @@ export async function initI18next(lng: string, ns: string, additionalResources? 
     }))
     .init(getOptions(lng))
     const error_strings= await import(`./locales/${lng}/errors.json`)
+    const dashboard_strings = await import(`./locales/${lng}/dashboard.json`)
     await i18nInstance.addResourceBundle(lng, "generic", error_strings, true, true)
+    await i18nInstance.addResourceBundle(lng, "dashboard", dashboard_strings, true, true)
+
     // await i18nInstance.addResourceBundle(lng, "generic", error_hi, true, true)
 
     if(additionalResources && Array.isArray(additionalResources)){

@@ -5,6 +5,10 @@ import SimpleSnackbar from "../general/Snackbar"
 import { toast } from "react-toastify"
 import isEmail from 'validator/lib/isEmail';
 import { getMinimumPasswordLength } from "@/lib/helpers/env"
+import { authClient } from "@/lib/auth-client"
+import { redirect, RedirectType } from 'next/navigation'
+import { role } from "better-auth/plugins"
+
 export const SignupWithEmailForm =  ({lng , onBackClicked, callbackURL = '/dashboard', admin}:{lng: string, onBackClicked:MouseEventHandler<HTMLButtonElement>, callbackURL? :string, action?: string, admin?: boolean}) => {
     const i18n = useTranslationClient(lng)
     const [name, setName] = useState("")
@@ -15,12 +19,31 @@ export const SignupWithEmailForm =  ({lng , onBackClicked, callbackURL = '/dashb
     const [emailValid, setEmailValid] = useState(true)
     const [passwordValid, setPasswordValid] = useState(true)
     const [confirmPasswordValid, setConfirmPasswordValid] = useState(true)
-    const onSignUpClicked = () =>{
-        formIsValid()
+    const onSignUpClicked = async () =>{
+        const isValid =  formIsValid()
+        if(isValid){
+            //Make the request.
+            const { data, error } = await authClient.signUp.email({
+                name: name, 
+                email: email, // required
+                password: password, // required
+            });    
+            if(error){
+                if(error.code){
+                    toast.error(i18n.t(error.code))
+                }else{
+                    toast.error(i18n.t("ERROR_GENERIC_MESSAGE"))
+                }
+
+                return
+            }
+
+            redirect(callbackURL)
+        }
     }
 
+
     const formIsValid = () =>{
-        let valid=true
         if(!name){
             toast.error(i18n.t("ERROR_INVALID_NAME"))
             setNameValid(false)

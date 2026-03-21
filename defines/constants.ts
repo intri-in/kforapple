@@ -6,7 +6,7 @@ export const SUPPORTED_LANGUAGES = ["en", "hi"]
 export const DEFAULT_LANGUAGE = "en"
 
 export const DEFAULT_METADATA: Metadata = {
-    title:"HPG Educational Trust's Digital Archive",
+    title:"KForApple - Quiz Software",
     metadataBase: new URL(getBaseURL()),
     description:"A self-hosted tool for creating quizzes.",
     keywords:"quiz, self-hosted, open-source",

@@ -45,7 +45,12 @@
     "BACK":"Back",
     "PASSWORD":"Password",
     "CONFIRM_PASSWORD":"Confirm Password",
-    "SIGN_UP_WITH_EMAIL_OTP":"Sign Up with Email OTP"
+    "SIGN_UP_WITH_EMAIL_OTP":"Sign Up with Email OTP",
+    "LOGIN_WITH_EMAIL_OTP":"Login with Email OTP",
+    "LOGIN_WITH_PASSWORD":"Login with Password",
+    "SETTING_UP":"Setting up...",
+    "OTP":"OTP",
+    "SUBMIT":"Submit"
     
 
 }

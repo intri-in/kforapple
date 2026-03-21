@@ -27,12 +27,12 @@ return toReturn
 }
 
 
-export default async function Home({searchParams }:{ searchParams?: Promise<{ [key: string]: string | string[] | undefined }>}) {
+export default async function Login({searchParams }:{ searchParams?: Promise<{ [key: string]: string | string[] | undefined }>}) {
   const lng = (await searchParams)?.lng?.toString() ?? DEFAULT_LANGUAGE
   console.log("lng", lng)
   return (
       <Suspense fallback={<FullPageLoadingPlaceholder />}>
-        <LoginForm lng={lng} />
+        <LoginForm action="login" lng={lng} />
       </Suspense>
         
   )

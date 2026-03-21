@@ -1,7 +1,11 @@
 {
+    "ERROR_GENERIC_MESSAGE":"Something went wrong. Please check the logs.",
     "ERROR_INVALID_NAME":"Please enter a valid name.",
     "ERROR_INVALID_EMAIL":"Please enter a valid email.",
     "ERROR_VALID_PASSWORD":"Please enter a valid password. Password must have a minimum length of {{length}}.",
-    "ERROR_VALID_CONFIRM_PASSWORD":"Please confirm the password."
+    "ERROR_VALID_CONFIRM_PASSWORD":"Please confirm the password.",
+    "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL":"User already exists. Use another email.",
+    "INVALID_OTP":"Please enter a valid OTP.",
+    "TOO_MANY_REQUESTS":"Too many requests. Please wait a while before retrying."
 
 }

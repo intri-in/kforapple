@@ -1,3 +1,4 @@
+import { getEnabledLoginProviders } from "./auth"
 import { addTrailingSlashtoURL } from "./general"
 
 export function getBaseURL(){
@@ -13,4 +14,18 @@ export function getMinimumPasswordLength(){
     const length = parseInt(process.env.NEXT_PUBLIC_MIN_PASSWORD_LENGTH)
     if(isNaN(length)) return 8
     return length
+}
+
+export function getIfEmailSignupEnabled(){
+    const enabledProviders =  getEnabledLoginProviders()
+    return enabledProviders.includes("EMAIL")
+}
+
+export function getOTPLength(){
+    
+    if(!process.env.NEXT_PUBLIC_OTP_LENGTH) return 6
+    const length = parseInt(process.env.NEXT_PUBLIC_OTP_LENGTH)
+    if(isNaN(length)) return 8
+    return length
+
 }
